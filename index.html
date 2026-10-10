@@ -1,0 +1,460 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="StudySmart Hub helps students plan study sessions, manage tasks, and build better study habits.">
+  <meta name="theme-color" content="#4f46e5">
+  <title>StudySmart Hub | Plan Smarter, Study Better</title>
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --ink: #172033;
+      --muted: #64748b;
+      --bg: #f6f8fc;
+      --card: #ffffff;
+      --border: #e5eaf2;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    header {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+    nav {
+      max-width: 1100px;
+      margin: auto;
+      padding: 16px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+    .logo { font-size: 1.2rem; font-weight: 800; }
+    .logo span { color: var(--primary); }
+    .navlinks { display: flex; gap: 20px; flex-wrap: wrap; }
+    .navlinks a { color: var(--muted); font-size: .95rem; }
+    .hero {
+      padding: 76px 22px 60px;
+      text-align: center;
+      background: linear-gradient(135deg, #eef2ff, #f8fafc 65%);
+    }
+    .eyebrow {
+      display: inline-block;
+      background: #e0e7ff;
+      color: #3730a3;
+      border-radius: 99px;
+      padding: 5px 13px;
+      font-size: .85rem;
+      font-weight: 700;
+    }
+    h1 {
+      max-width: 780px;
+      margin: 18px auto;
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      line-height: 1.12;
+      letter-spacing: -.04em;
+    }
+    .hero p {
+      max-width: 620px;
+      margin: 0 auto 25px;
+      color: var(--muted);
+      font-size: 1.1rem;
+    }
+    .button {
+      display: inline-block;
+      border: 0;
+      border-radius: 10px;
+      padding: 11px 18px;
+      font: inherit;
+      font-weight: 700;
+      background: var(--primary);
+      color: white;
+      cursor: pointer;
+    }
+    .button.secondary { background: #eef2ff; color: #3730a3; }
+    .container { max-width: 1100px; margin: auto; padding: 42px 22px; }
+    .section-head { margin-bottom: 22px; }
+    .section-head h2 { margin: 0 0 5px; font-size: 1.8rem; }
+    .section-head p { color: var(--muted); margin: 0; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      padding: 22px;
+      box-shadow: 0 5px 20px #17203308;
+    }
+    .card h3 { margin: 8px 0; }
+    .card p { color: var(--muted); margin-bottom: 0; }
+    .emoji { font-size: 1.7rem; }
+    .tools {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+    label { display: block; font-weight: 650; margin: 12px 0 5px; }
+    input {
+      width: 100%;
+      min-width: 0;
+      padding: 11px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 9px;
+      font: inherit;
+      background: white;
+    }
+    .task-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .task-row input { width: auto; }
+    .task-row span { flex: 1; overflow-wrap: anywhere; }
+    .task-row.done span { text-decoration: line-through; color: var(--muted); }
+    .delete {
+      border: 0; background: transparent; color: #b91c1c;
+      cursor: pointer; font-size: 1.1rem;
+    }
+    .timer { text-align: center; }
+    #clock {
+      font-size: clamp(3rem, 8vw, 4.6rem);
+      font-weight: 800;
+      letter-spacing: -.04em;
+      font-variant-numeric: tabular-nums;
+      margin: 10px 0;
+    }
+    .timer-actions { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
+    .tip-list { padding-left: 20px; }
+    .tip-list li { margin: 10px 0; }
+    footer {
+      margin-top: 25px;
+      background: #111827;
+      color: white;
+      text-align: center;
+      padding: 26px 20px;
+    }
+    footer p { color: #cbd5e1; margin: 5px; }
+    @media (max-width: 760px) {
+      .grid, .tools { grid-template-columns: 1fr; }
+      nav { align-items: flex-start; flex-direction: column; }
+      .navlinks { gap: 14px; }
+      .hero { padding-top: 55px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav aria-label="Main navigation">
+      <a class="logo" href="#home">StudySmart <span>Hub</span></a>
+      <div class="navlinks">
+        <a href="#resources">Study resources</a>
+        <a href="#planner">Planner</a>
+        <a href="#pomodoro">Pomodoro timer</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <span class="eyebrow">Your student productivity companion</span>
+      <h1>Plan smarter.<br>Study better.</h1>
+      <p>Build better study habits with practical advice, a simple task planner, and focused study sessions.</p>
+      <a class="button" href="#planner">Plan my study session</a>
+      <a class="button secondary" href="#resources">Explore study tips</a>
+    </section>
+
+    <section class="container" id="resources">
+      <div class="section-head">
+        <h2>Study resources</h2>
+        <p>Simple strategies to make your study time more effective.</p>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <div class="emoji" aria-hidden="true">📚</div>
+          <h3>Active recall</h3>
+          <p>Close your notes and try to explain a concept from memory. Review what you missed and test yourself again.</p>
+        </article>
+        <article class="card">
+          <div class="emoji" aria-hidden="true">🗓️</div>
+          <h3>Build a study timetable</h3>
+          <p>Break subjects into manageable tasks, set realistic goals, and reserve time for practice and revision.</p>
+        </article>
+        <article class="card">
+          <div class="emoji" aria-hidden="true">⏱️</div>
+          <h3>Try the Pomodoro method</h3>
+          <p>Work in focused intervals, take short breaks, and adjust the session length to suit your task and concentration.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="container" id="planner">
+      <div class="section-head">
+        <h2>Your study planner</h2>
+        <p>Add tasks and dates, then tick each task off as you finish it.</p>
+      </div>
+      <div class="tools">
+        <div class="card">
+          <h3>Add a study task</h3>
+          <form id="task-form">
+            <label for="task-name">Task name</label>
+            <input id="task-name" maxlength="120" placeholder="e.g. Revise biology chapter 3" required>
+            <label for="task-date">Due date</label>
+            <input id="task-date" type="date" required>
+            <p><button class="button" type="submit">Add task</button></p>
+          </form>
+          <p id="task-message" role="status" aria-live="polite"></p>
+        </div>
+        <div class="card">
+          <h3>My tasks</h3>
+          <p id="task-count">No tasks yet.</p>
+          <div id="task-list"></div>
+          <button class="button secondary" id="clear-completed" type="button">Clear completed</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="container" id="pomodoro">
+      <div class="section-head">
+        <h2>Pomodoro timer</h2>
+        <p>Start a focused session, then take a break.</p>
+      </div>
+      <div class="card timer">
+        <label for="session-length">Study session length</label>
+        <select id="session-length" style="padding:9px;border:1px solid #cbd5e1;border-radius:9px;font:inherit">
+          <option value="15">15 minutes</option>
+          <option value="25" selected>25 minutes</option>
+          <option value="45">45 minutes</option>
+        </select>
+        <div id="timer-mode">Focus session</div>
+        <div id="clock" role="timer" aria-label="Time remaining">25:00</div>
+        <div class="timer-actions">
+          <button class="button" id="start-timer" type="button">Start</button>
+          <button class="button secondary" id="pause-timer" type="button">Pause</button>
+          <button class="button secondary" id="reset-timer" type="button">Reset</button>
+          <button class="button secondary" id="break-timer" type="button">5-minute break</button>
+        </div>
+        <p id="timer-message" role="status" aria-live="polite">Ready when you are.</p>
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="section-head">
+        <h2>Three habits to start today</h2>
+      </div>
+      <div class="card">
+        <ol class="tip-list">
+          <li>Choose one clear goal before each study session.</li>
+          <li>Put distractions away and keep your study materials ready.</li>
+          <li>Review what you learned and plan your next session.</li>
+        </ol>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <strong>StudySmart Hub</strong>
+    <p>Helpful resources for more focused learning.</p>
+    <p>© <span id="year"></span> StudySmart Hub</p>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Tasks are stored in this browser only, not on a server.
+    const STORAGE_KEY = "studysmart-hub-tasks-v1";
+    const taskForm = document.getElementById("task-form");
+    const taskName = document.getElementById("task-name");
+    const taskDate = document.getElementById("task-date");
+    const taskList = document.getElementById("task-list");
+    const taskCount = document.getElementById("task-count");
+    const taskMessage = document.getElementById("task-message");
+    let tasks = [];
+
+    try {
+      tasks = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+      if (!Array.isArray(tasks)) tasks = [];
+    } catch {
+      tasks = [];
+    }
+
+    function saveTasks() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+        taskMessage.textContent = "";
+      } catch {
+        taskMessage.textContent = "Unable to save tasks in this browser.";
+      }
+    }
+
+    function renderTasks() {
+      taskList.replaceChildren();
+      const completed = tasks.filter(task => task.done).length;
+      taskCount.textContent = tasks.length
+        ? `${completed} of ${tasks.length} tasks completed`
+        : "No tasks yet.";
+
+      [...tasks]
+        .sort((a, b) => a.date.localeCompare(b.date))
+        .forEach(task => {
+          const row = document.createElement("div");
+          row.className = "task-row" + (task.done ? " done" : "");
+
+          const checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.checked = task.done;
+          checkbox.setAttribute("aria-label", "Mark task completed");
+          checkbox.addEventListener("change", () => {
+            task.done = checkbox.checked;
+            saveTasks();
+            renderTasks();
+          });
+
+          const details = document.createElement("span");
+          details.textContent = `${task.name} — due ${task.date}`;
+
+          const remove = document.createElement("button");
+          remove.type = "button";
+          remove.className = "delete";
+          remove.textContent = "×";
+          remove.setAttribute("aria-label", "Delete " + task.name);
+          remove.addEventListener("click", () => {
+            tasks = tasks.filter(item => item.id !== task.id);
+            saveTasks();
+            renderTasks();
+          });
+
+          row.append(checkbox, details, remove);
+          taskList.append(row);
+        });
+    }
+
+    taskForm.addEventListener("submit", event => {
+      event.preventDefault();
+      tasks.push({
+        id: Date.now().toString() + Math.random().toString(16).slice(2),
+        name: taskName.value.trim(),
+        date: taskDate.value,
+        done: false
+      });
+      saveTasks();
+      renderTasks();
+      taskForm.reset();
+      taskMessage.textContent = "Task added.";
+    });
+
+    document.getElementById("clear-completed").addEventListener("click", () => {
+      tasks = tasks.filter(task => !task.done);
+      saveTasks();
+      renderTasks();
+    });
+
+    renderTasks();
+
+    // Pomodoro timer: uses a timestamp so delays do not accumulate each second.
+    const clock = document.getElementById("clock");
+    const timerMode = document.getElementById("timer-mode");
+    const timerMessage = document.getElementById("timer-message");
+    const sessionLength = document.getElementById("session-length");
+    let totalSeconds = Number(sessionLength.value) * 60;
+    let remaining = totalSeconds;
+    let endAt = null;
+    let interval = null;
+    let mode = "focus";
+
+    function showTime() {
+      const mins = Math.floor(remaining / 60);
+      const secs = remaining % 60;
+      clock.textContent = `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+      document.title = `${clock.textContent} — StudySmart Hub`;
+    }
+
+    function stopInterval() {
+      if (interval !== null) clearInterval(interval);
+      interval = null;
+    }
+
+    function tick() {
+      remaining = Math.max(0, Math.ceil((endAt - Date.now()) / 1000));
+      showTime();
+      if (remaining <= 0) {
+        stopInterval();
+        endAt = null;
+        timerMessage.textContent = mode === "focus"
+          ? "Session complete! Take a short break."
+          : "Break complete! Ready for another session?";
+        if ("Notification" in window && Notification.permission === "granted") {
+          new Notification("StudySmart Hub", { body: timerMessage.textContent });
+        }
+      }
+    }
+
+    function startTimer() {
+      if (endAt !== null) return;
+      if (remaining <= 0) remaining = totalSeconds;
+      endAt = Date.now() + remaining * 1000;
+      timerMessage.textContent = "Timer running. Stay focused!";
+      stopInterval();
+      tick();
+      interval = setInterval(tick, 250);
+    }
+
+    document.getElementById("start-timer").addEventListener("click", startTimer);
+
+    document.getElementById("pause-timer").addEventListener("click", () => {
+      if (endAt !== null) {
+        remaining = Math.max(0, Math.ceil((endAt - Date.now()) / 1000));
+      }
+      endAt = null;
+      stopInterval();
+      showTime();
+      timerMessage.textContent = "Timer paused.";
+    });
+
+    function resetTimer() {
+      stopInterval();
+      endAt = null;
+      mode = "focus";
+      totalSeconds = Number(sessionLength.value) * 60;
+      remaining = totalSeconds;
+      timerMode.textContent = "Focus session";
+      timerMessage.textContent = "Ready when you are.";
+      showTime();
+    }
+
+    document.getElementById("reset-timer").addEventListener("click", resetTimer);
+
+    document.getElementById("break-timer").addEventListener("click", () => {
+      stopInterval();
+      endAt = null;
+      mode = "break";
+      totalSeconds = 5 * 60;
+      remaining = totalSeconds;
+      timerMode.textContent = "Short break";
+      timerMessage.textContent = "Relax for five minutes.";
+      showTime();
+      startTimer();
+    });
+
+    sessionLength.addEventListener("change", resetTimer);
+    showTime();
+  </script>
+</body>
+</html>
